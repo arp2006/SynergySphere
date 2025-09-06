@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/proinfo.css" />
+  </head>
+  <body>
+    <div class="signup-container">
+      <form method="POST" action="/create-project">
+  <h3 class="synergy-title">New Project</h3>
+
+  <div class="input-div">
+    <label for="project-title">Enter Project Title</label>
+    <input
+      type="text"
+      id="project-title"
+      name="title"
+      placeholder="Enter project title"
+      required
+    />
+  </div>
+
+  <div class="input-div">
+    <label for="project-content">Enter Project Contents</label>
+    <textarea
+      id="project-content"
+      name="content"
+      placeholder="Enter project content"
+      required
+      rows="5"
+    ></textarea>
+  </div>
+
+  <button type="submit" class="register-btn">Create Project</button>
+</form>
+    </div>
+  </body>
+</html>

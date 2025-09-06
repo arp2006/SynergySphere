@@ -5,7 +5,6 @@ import path from "path";
 import bcrypt from 'bcrypt';
 import session from 'express-session';
 import { fileURLToPath } from "url";
-import { log } from "console";
 
 const app = express();
 const port = 3000;
@@ -27,11 +26,18 @@ const db = new pg.Client({
   user: "postgres",
   host: "localhost",
   database: "SynergySphere",
-  password: "yoongie_sid",
-
+  password: "1472",
   port: 5432,
 });
 db.connect();
+
+function isLoggedIn(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    res.redirect("/register");
+  }
+}
 
 app.get("/", isLoggedIn, (req, res) => {
   res.sendFile(path.join(__dirname, "public", "home.html"));
@@ -39,6 +45,10 @@ app.get("/", isLoggedIn, (req, res) => {
 
 app.get("/register", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "forms.html"));
+});
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "login.html"));
 });
 
 app.post("/register", async (req, res) => {
@@ -68,6 +78,24 @@ app.post("/register", async (req, res) => {
   }
 });
 
+app.post("/create-project", isLoggedIn, async (req, res) => {
+  const { title, content } = req.body;
+  const leader = req.session.user.username;
+  const deadline = null; 
+
+  try {
+    await db.query(
+      `INSERT INTO projects (topic, description, leader, deadline) VALUES ($1, $2, $3, $4)`,
+      [title, content, leader, deadline]
+    );
+    res.redirect('/mypro.html'); 
+  } catch (error) {
+    console.error("Error creating project:", error);
+    res.status(500).send("Failed to create project");
+  }
+});
+
+
 app.post("/login", async (req, res) => {
   const email = req.body.em;
   const password = req.body.pass;
@@ -96,14 +124,63 @@ app.post("/login", async (req, res) => {
   }
 });
 
-
-function isLoggedIn(req, res, next) {
-  if (req.session.user) {
-    next();
-  } else {
-    res.redirect("/register");
+app.get("/api/myprojects", isLoggedIn, async (req, res) => {
+  try {
+    const username = req.session.user.username;
+    const query = `
+      FROM projects p
+      JOIN users u ON p.leader = u.username
+      WHERE p.leader = $1
+      ORDER BY p.deadline;
+    `;
+    const result = await db.query(query, [username]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error fetching my projects:", err);
+    res.status(500).json({ error: "Failed to fetch my projects" });
   }
-}
+});
+
+app.get("/api/teamprojects", isLoggedIn, async (req, res) => {
+  try {
+    const username = req.session.user.username;
+    const query = `
+      SELECT p.id, p.topic, p.deadline, u.name AS leader_name
+      FROM projects p
+      JOIN users u ON p.leader = u.username
+      WHERE p.leader != $1
+      ORDER BY p.deadline;
+    `;
+    const result = await db.query(query, [username]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error fetching team projects:", err);
+    res.status(500).json({ error: "Failed to fetch team projects" });
+  }
+});
+
+app.get("/api/notes", async (req, res) => {
+  try {
+    const query = `
+      SELECT tasks.id, tasks.text AS content, todo.topic AS title
+      FROM tasks
+      JOIN todo ON tasks.list = todo.id
+      ORDER BY tasks.id DESC
+    `;
+
+    const result = await db.query(query);
+
+    const notes = result.rows.map(row => ({
+      title: row.title,
+      content: row.content
+    }));
+
+    res.json(notes);
+  } catch (err) {
+    console.error("Error fetching notes:", err);
+    res.status(500).json({ error: "Failed to fetch notes" });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Projects</title>
+  <link rel="stylesheet" href="css/teampro.css" />
+</head>
+
+<body>
+  <aside class="sidebar">
+    <h6 class="title">SynergySphere</h6>
+    <h2>Menu</h2>
+    <details class="menu-item">
+      <summary>People</summary>
+      <ul>
+        <li>Everybody</li>
+        <li>Requests</li>
+        <li>Blocked</li>
+      </ul>
+    </details>
+
+    <details class="menu-item">
+      <summary>Chatbox</summary>
+      <ul>
+        <li>New Chat</li>
+        <li>Groups</li>
+        <li>Archived</li>
+      </ul>
+    </details>
+
+    <details class="menu-item">
+      <summary>Deadline</summary>
+      <ul>
+        <li>Today</li>
+        <li>This Week</li>
+        <li>Completed</li>
+      </ul>
+    </details>
+  </aside>
+  <main class="main-content">
+    <h1>My Projects</h1>
+    <div id="notes-container"></div>
+    <button class="plus note" onclick="window.location.href='./proinfo.html'">+</button>
+  </main>
+  <script>
+    const notesContainer = document.getElementById('notes-container');
+
+    function renderProjects(projects) {
+      notesContainer.innerHTML = '';
+
+      projects.forEach(proj => {
+        const div = document.createElement('div');
+        div.className = 'note';
+
+        div.innerHTML = `
+          <h1>${proj.topic}</h1>
+          <p>Leader: ${proj.leader_name}</p>
+        `;
+
+        notesContainer.appendChild(div);
+      });
+    }
+
+    async function fetchAndRenderProjects() {
+      try {
+        const response = await fetch('/api/myprojects', { credentials: 'include' });
+        const projects = await response.json();
+        renderProjects(projects);
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+        notesContainer.textContent = "Failed to load projects.";
+      }
+    }
+
+    fetchAndRenderProjects();
+  </script>
+
+</body>
+
+</html>
