@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import path from "path";
 import bcrypt from 'bcrypt';
+import session from 'express-session';
 import { fileURLToPath } from "url";
 import { log } from "console";
 
@@ -14,6 +15,13 @@ const __dirname = path.dirname(__filename);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(express.json());
+app.use(session({
+  secret: 'your-secret-key',  
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }   
+}));
 
 const db = new pg.Client({
   user: "postgres",
@@ -23,6 +31,10 @@ const db = new pg.Client({
   port: 5432,
 });
 db.connect();
+
+app.get("/", isLoggedIn, (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "home.html"));
+});
 
 app.get("/register", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "forms.html"));
@@ -49,10 +61,9 @@ app.post("/register", async (req, res) => {
     );
 
     console.log("New user created");
-    res.json({ success: true, message: "User registered successfully." });
+    res.redirect("/login");
   } catch (err) {
     console.error(err);
-    res.json({ success: false, message: "Internal server error" });
   }
 });
 
@@ -73,14 +84,25 @@ app.post("/login", async (req, res) => {
     if (!passwordMatch) {
       return res.json({ success: false, message: "Invalid email or password." });
     }
+
+    req.session.user = { id: user.id, username: user.username };
+
     console.log("User logged in:", user.username);
-    res.json({ success: true, message: "Login successful.", username: user.username });
-  } 
-  catch (err) {
+    res.redirect("/")
+  } catch (err) {
     console.error(err);
     res.json({ success: false, message: "Internal server error" });
   }
 });
+
+
+function isLoggedIn(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    res.redirect("/register");
+  }
+}
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

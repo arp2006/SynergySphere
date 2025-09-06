@@ -9,4 +9,26 @@ CREATE TABLE users(
 );
 
 INSERT INTO users (username, password, email, name)
-VALUES ('hhh','niga123','hackr@gmail.com','niga');
+VALUES ('hhh','hacker1234','hackr@gmail.com','niga');
+
+-- db for project and todo
+DROP TABLE projects, todo, tasks;
+CREATE TABLE projects (
+  id SERIAL PRIMARY KEY,
+  topic VARCHAR(500),
+  deadline DATE,
+  leader VARCHAR(255),
+  CONSTRAINT fk_leader FOREIGN KEY (leader) REFERENCES users(username)
+);
+
+CREATE TABLE todo (
+  id SERIAL PRIMARY KEY,
+  topic VARCHAR(500)
+);
+
+CREATE TABLE tasks (
+  id SERIAL PRIMARY KEY,
+  text VARCHAR(3000),
+  list INT,
+  CONSTRAINT fk_list FOREIGN KEY (list) REFERENCES todo(id)
+);
