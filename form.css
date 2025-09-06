@@ -22,8 +22,10 @@ body {
     }
     .input-div {
       margin-bottom: 15px;
-      align-items: left;
-      
+      align-items: left;  
+    }
+    .input-div:hover{
+        border-color: #335637;
     }
     .input-div label {
       display: block;
@@ -39,17 +41,28 @@ body {
       border: 2px solid #ddeedf;
   border-radius: 5px;
     }
+    .terms {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #333;
+    }
     .register-btn {
       width: 100%;
       padding: 12px;
-      background: #007bff;
+      background: #c06c84;
       border: none;
       border-radius: 6px;
       color: white;
+      font-size: large;
       font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
     }
     .register-btn:hover {
-      background: #0056b3;
+      background: #c54c82;
     }
+
+    
