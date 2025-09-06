@@ -23,8 +23,7 @@ body {
     .input-div {
       margin-bottom: 15px;
       align-items: left;
-      border: 2px solid #ddeedf;
-  border-radius: 5px;
+      
     }
     .input-div label {
       display: block;
@@ -33,10 +32,12 @@ body {
       color: #555;
     }
     .input-div input {
-      width: 100%;
+      width: 95%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 6px;
+      border: 2px solid #ddeedf;
+  border-radius: 5px;
     }
     .register-btn {
       width: 100%;
