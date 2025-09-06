@@ -19,7 +19,8 @@ const db = new pg.Client({
   user: "postgres",
   host: "localhost",
   database: "SynergySphere",
-  password: "1472",
+  password: "yoongie_sid",
+
   port: 5432,
 });
 db.connect();
