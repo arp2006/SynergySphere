@@ -1,4 +1,5 @@
---db init for user id--
+-- db init for user id
+DROP TABLE users;
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     username VARCHAR(25) UNIQUE NOT NULL,
@@ -7,3 +8,5 @@ CREATE TABLE users(
     name VARCHAR(50)
 );
 
+INSERT INTO users (username, password, email, name)
+VALUES ('hhh','niga123','hackr@gmail.com','niga');
