@@ -7,19 +7,6 @@ body {
       height: 100vh;
       margin: 0;
     }
-    .synergy-title {
-  font-weight: bold;      
-  font-style: italic;     
-  font-family: cursive;  
-  font-size: 35px;        
-  text-align: center;    
-  color: #8a1253;
-
-  margin-top: 5px;  
-  margin-bottom: 10px;
-  padding: 0; 
-
-    }         
     .signup-container {
       background: #fff;
       padding: 20px;
@@ -52,10 +39,6 @@ body {
     }
     .input-div:hover{
         border-color: #335637;
-      align-items: left;  
-    }
-    .input-div:hover{
-        border-color: #335637;
     }
     .input-div label {
       display: block;
@@ -71,14 +54,6 @@ body {
       border: 2px solid #ddeedf;
   border-radius: 5px;
     }
-    .terms {
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: #333;
-    }
     .register-btn {
       width: 100%;
       padding-top: 20px;
@@ -87,7 +62,6 @@ body {
       border: none;
       border-radius: 6px;
       color: white;
-      font-size: large;
       font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
@@ -95,6 +69,7 @@ body {
     .register-btn:hover {
       background: #c54c82;
     }
+    
     .login-text {
   text-align: center;
   margin-top: 15px;
@@ -109,5 +84,3 @@ body {
 .login-text a:hover {
   text-decoration: underline;
 }
-
-    
