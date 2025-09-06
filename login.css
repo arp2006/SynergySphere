@@ -16,6 +16,19 @@ body {
       height: 360px;
       
     }
+    .synergy-title {
+  font-weight: bold;      
+  font-style: italic;     
+  font-family: cursive;  
+  font-size: 35px;        
+  text-align: center;    
+  color: #8a1253;
+
+  margin-top: 5px;  
+  margin-bottom: 10px;
+  padding: 0; 
+
+    }         
     h2 {
       text-align: center;
       color: #333;
@@ -56,11 +69,18 @@ body {
     .register-btn:hover {
       background: #c54c82;
     }
-    h6{
-        font-family: Arial, Helvetica, sans-serif;
-        text-align: center;
-        align-items: center;
-        font-size: medium;
-        padding: 5px 20px;
-        width: 30px;
-    }
+    
+    .login-text {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #333;
+}
+.login-text a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+.login-text a:hover {
+  text-decoration: underline;
+}
