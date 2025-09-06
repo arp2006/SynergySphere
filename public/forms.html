@@ -3,16 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>SynergySphere | Register</title>
     <link rel="stylesheet" href="form.css" />
   </head>
   <body>
     <div class="signup-container">
       <form method="POST" action="/register">
+        <h3 class="synergy-title">SynergySphere</h3>
+
         <div class="input-div">
           <label for="name">Name</label>
           <input type="text" id="name" name="n" placeholder="Enter your name" required />
         </div>
+
         <div class="input-div">
           <label for="username">Username</label>
           <input
@@ -48,7 +51,16 @@
           />
         </div>
 
-        <button type="submit" class="register-btn">Register</button>
+        <div class="terms">
+          <input type="checkbox" id="terms" name="terms" required />
+          <label for="terms">I accept all terms and conditions</label>
+        </div>
+
+        <button type="submit" class="register-btn">Register Now</button>
+
+        <div class="login-text">
+          Already have an account? <a href="login.html">Login Now</a>
+        </div>
       </form>
     </div>
   </body>
